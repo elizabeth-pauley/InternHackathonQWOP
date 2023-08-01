@@ -37,10 +37,19 @@ var armLength = 60;
 var leftArm = Bodies.rectangle(150, 200, armLength, 10, { render: { fillStyle: 'skin-color' } });
 var rightArm = Bodies.rectangle(250, 200, armLength, 10, { render: { fillStyle: 'skin-color' } });
 
-// Create the legs
-var legLength = 80;
-var leftLeg = Bodies.rectangle(180, 300, 10, legLength, { render: { fillStyle: 'skin-color' } });
-var rightLeg = Bodies.rectangle(220, 300, 10, legLength, { render: { fillStyle: 'skin-color' } });
+// Create the upper leg (thigh)
+const thighWidth = 20;
+const thighHeight = 80;
+const leftThigh = Bodies.rectangle(180, 300, thighWidth, thighHeight, { render: { fillStyle: 'skin-color' } });
+const rightThigh = Bodies.rectangle(220, 300, thighWidth, thighHeight, { render: { fillStyle: 'skin-color' } });
+
+
+
+// Create the lower leg (calf)
+const calfWidth = 15;
+const calfHeight = 60;
+const leftCalf = Bodies.rectangle(180, 370, calfWidth, calfHeight, { render: { fillStyle: 'skin-color' } });
+const rightCalf = Bodies.rectangle(220, 370, calfWidth, calfHeight, { render: { fillStyle: 'skin-color' } });
 
 // Connect the head and torso (neck joint)
 var neckJoint = Constraint.create({
@@ -52,7 +61,7 @@ var neckJoint = Constraint.create({
     render: {
         visible: false
     },
-    length: 5
+    length: 0
 });
 
 // Connect the arms and torso
@@ -65,7 +74,7 @@ var leftArmJoint = Constraint.create({
     render: {
         visible: false
     },
-    length: 5
+    length: 0
 });
 
 var rightArmJoint = Constraint.create({
@@ -77,38 +86,62 @@ var rightArmJoint = Constraint.create({
     render: {
         visible: false
     },
-    length: 5
+    length: 0
 });
 
-// Connect the legs and torso
-var leftLegJoint = Constraint.create({
-    bodyA: leftLeg,
-    pointA: { x: 0, y: legLength / 2 },
+// Connect the thighs and torso
+const leftThighJoint = Constraint.create({
+    bodyA: leftThigh,
+    pointA: { x: 0, y: -thighHeight / 2 },
     bodyB: torso,
-    pointB: { x: -10, y: torsoHeight / 2 },
+    pointB: { x: -torsoWidth / 4, y: torsoHeight / 2 },
     stiffness: 0.8,
     render: {
         visible: false
     },
-    length: 5
-});
+    length: 0
+  });
 
-var rightLegJoint = Constraint.create({
-    bodyA: rightLeg,
-    pointA: { x: 0, y: legLength / 2 },
+  const rightThighJoint = Constraint.create({
+    bodyA: rightThigh,
+    pointA: { x: 0, y: -thighHeight / 2 },
     bodyB: torso,
-    pointB: { x: 10, y: torsoHeight / 2 },
+    pointB: { x: torsoWidth / 4, y: torsoHeight / 2 },
     stiffness: 0.8,
-    // render: {
-    //     visible: false
-    // },
-    length: 5
-});
+    render: {
+        visible: false
+    },
+    length: 0
+  });
 
+  // Connect the calves and thighs (knee joint)
+  const leftKneeJoint = Constraint.create({
+    bodyA: leftThigh,
+    pointA: { x: 0, y: thighHeight / 2 },
+    bodyB: leftCalf,
+    pointB: { x: 0, y: -calfHeight / 2 },
+    stiffness: 0.8,
+    render: {
+        visible: false
+    },
+    length: 0
+  });
+
+  const rightKneeJoint = Constraint.create({
+    bodyA: rightThigh,
+    pointA: { x: 0, y: thighHeight / 2 },
+    bodyB: rightCalf,
+    pointB: { x: 0, y: -calfHeight / 2 },
+    stiffness: 0.8,
+    render: {
+        visible: false
+    },
+    length: 0
+  });
 
 Composite.add(engine.world, [ground]);
-Composite.add(engine.world, [head, torso, leftArm, rightArm, leftLeg, rightLeg]);
-Composite.add(engine.world, [neckJoint, leftArmJoint, rightArmJoint, leftLegJoint, rightLegJoint]);
+Composite.add(engine.world, [head, torso, leftArm, rightArm, leftThigh, rightThigh, leftCalf, rightCalf]);
+Composite.add(engine.world, [neckJoint, rightArmJoint, leftArmJoint, leftThighJoint, rightThighJoint, leftKneeJoint, rightKneeJoint]);
 
 
 Render.run(render);
