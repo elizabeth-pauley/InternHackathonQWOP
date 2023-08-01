@@ -35,7 +35,8 @@ var render = Render.create({
     engine: engine,
     options: {
         width: SCREEN_WIDTH,
-        height: CANVAS_HEIGHT
+        height: CANVAS_HEIGHT,
+        wireframes: false
         // You may have other options here, leave them as they are
     }
 });
@@ -60,17 +61,17 @@ const LEFT_CALF_COLLIDE = 4;
 const LEFT_FOOT_COLLIDE = 8;
 
 
-var left_thigh = Bodies.rectangle(100, 100, 30, 80, { isStatic: static, collisionFilter: {
+var left_thigh = Bodies.rectangle(100, 100, 30, 80, { render: {fillStyle: 'darkred'}, isStatic: static, collisionFilter: {
     category: LEFT_THIGH_COLLIDE,
     mask: GROUND_COLLIDE
 
 }});
 
-var left_calf = Bodies.rectangle(100, 180, 10, 70, { isStatic: static, collisionFilter: {
+var left_calf = Bodies.rectangle(100, 180, 10, 70, { render: {fillStyle: 'darkred'}, isStatic: static, collisionFilter: {
     category: LEFT_CALF_COLLIDE,
     mask: GROUND_COLLIDE
 }});
-var left_foot = Bodies.rectangle(105, 220, 20, 10, { isStatic: static, collisionFilter: {
+var left_foot = Bodies.rectangle(105, 220, 20, 10, { render: {fillStyle: 'darkred'}, isStatic: static, collisionFilter: {
     category: LEFT_FOOT_COLLIDE,
     mask: GROUND_COLLIDE
 } });
@@ -129,17 +130,17 @@ const RIGHT_CALF_COLLIDE = 32;
 const RIGHT_FOOT_COLLIDE = 64;
 
 
-var right_thigh = Bodies.rectangle(150, 100, 30, 80, { isStatic: static, collisionFilter: {
+var right_thigh = Bodies.rectangle(150, 100, 30, 80, { render: { fillStyle: 'red' }, isStatic: static, collisionFilter: {
     category: RIGHT_THIGH_COLLIDE,
     mask: GROUND_COLLIDE
 
 }});
 
-var right_calf = Bodies.rectangle(150, 180, 10, 70, { isStatic: static, collisionFilter: {
+var right_calf = Bodies.rectangle(150, 180, 10, 70, { render: {fillStyle: 'red'}, isStatic: static, collisionFilter: {
     category: RIGHT_CALF_COLLIDE,
     mask: GROUND_COLLIDE
 }});
-var right_foot = Bodies.rectangle(155, 220, 20, 10, { isStatic: static, collisionFilter: {
+var right_foot = Bodies.rectangle(155, 220, 20, 10, { render: {fillStyle: 'red'}, isStatic: static, collisionFilter: {
     category: RIGHT_FOOT_COLLIDE,
     mask: GROUND_COLLIDE
 } });
