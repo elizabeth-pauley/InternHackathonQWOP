@@ -171,7 +171,7 @@ var right_kneeFootConstraint = Constraint.create({
     pointA: { x: -50, y: 50 },
     pointB: { x: 10, y: 50 },
     render: {
-        visible: false
+        visible: true
     }
 });
 
@@ -183,7 +183,7 @@ var right_calfFootConstraint = Constraint.create({
     pointA: { x: 30, y: 0 },
     pointB: { x: 10, y: 0 },
     render: {
-        visible: false
+        visible: true
     }
 });
 
@@ -198,7 +198,7 @@ var right_calfFootConstraint = Constraint.create({
 const BODY_COLLIDE = 128;
 
 
-var body = Bodies.rectangle(150, 100, 50, 100, { isStatic: static, collisionFilter: {
+var body = Bodies.rectangle(150, 100, 50, 100, { isStatic: true, collisionFilter: {
     category: BODY_COLLIDE,
     mask: GROUND_COLLIDE,
 }});
@@ -217,17 +217,13 @@ var leftHip = Constraint.create({
 var rightHip = Constraint.create({
     bodyA: body,
     bodyB: right_thigh,
-    pointA: { x: 0, y: 50 },
+    pointA: { x: 0, y: 50},
     pointB: { x: 0, y: -40 },
     length: 0,
     render: {
         visible: true
     }
 });
-
-
-
-
 
 
 /* 
@@ -242,7 +238,7 @@ var mouse = Mouse.create(render.canvas),
         constraint: {
             stiffness: 0.2,
             render: {
-                visible: false
+                visible: true
             }
         }
     });
@@ -262,7 +258,6 @@ var runner = Runner.create();
 
 // Create the game loop function
 function gameLoop() {
-
     // var boxAPos = boxA.position.x;
     // var boxBPos = boxB.position.x;
 
@@ -288,3 +283,30 @@ gameLoop();
 
 // run the engine
 Runner.run(runner, engine);
+
+function applyForce() {
+  const forceMagnitude = 0.01; // Adjust the force magnitude as needed
+  const forceConstraint = Constraint.create({
+    bodyA: left_calf,
+    //pointA: { x: 0, y: 10},
+    pointB: { x: left_calf.position.x + 30, y: left_calf.position.y}, // The point where the force is applied
+    stiffness: forceMagnitude,
+    length: 0,
+  });
+
+  // Add the force constraint to the world
+  World.add(engine.world, forceConstraint);
+
+  // Remove the force constraint after a short delay (e.g., 1 second)
+  setTimeout(() => {
+    World.remove(engine.world, forceConstraint);
+  }, 700);
+}
+
+// Add an event listener to the document for the 'keydown' event
+document.addEventListener('keydown', (event) => {
+  // Check if the pressed key corresponds to the character 'O' (uppercase or lowercase)
+  if (event.key === 'o' || event.key === 'O') {
+    applyForce();
+  }
+});
