@@ -22,7 +22,7 @@ const distanceMarkerBody = () => Bodies.rectangle(DISTANCE_MARKER_STARTING_VECTO
 const playerBody = () => Bodies.rectangle(100, 100, 80, 80);
 
 const GROUND_COLLIDE = 1;
-const groundBody = () => Bodies.rectangle(0, CANVAS_HEIGHT, SCREEN_WIDTH * 2, 60, { isStatic: true, collisionFilter: {
+const groundBody = () => Bodies.rectangle(0, CANVAS_HEIGHT, SCREEN_WIDTH * 2, 60, { isStatic: true, friction: 1, collisionFilter: {
     category: GROUND_COLLIDE
 } });
 
@@ -61,17 +61,17 @@ const LEFT_CALF_COLLIDE = 4;
 const LEFT_FOOT_COLLIDE = 8;
 
 
-var left_thigh = Bodies.rectangle(100, 100, 30, 80, { render: {fillStyle: 'darkred'}, isStatic: static, collisionFilter: {
+var left_thigh = Bodies.rectangle(140, 190, 30, 80, { render: {fillStyle: 'red'}, isStatic: static, collisionFilter: {
     category: LEFT_THIGH_COLLIDE,
     mask: GROUND_COLLIDE
 
 }});
 
-var left_calf = Bodies.rectangle(100, 180, 10, 70, { render: {fillStyle: 'darkred'}, isStatic: static, collisionFilter: {
+var left_calf = Bodies.rectangle(140, 270, 10, 70, { render: {fillStyle: 'red'}, isStatic: static, collisionFilter: {
     category: LEFT_CALF_COLLIDE,
     mask: GROUND_COLLIDE
 }});
-var left_foot = Bodies.rectangle(105, 220, 20, 10, { render: {fillStyle: 'darkred'}, isStatic: static, collisionFilter: {
+var left_foot = Bodies.rectangle(145, 310, 20, 10, { render: {fillStyle: 'red'}, isStatic: static, friction: 1, collisionFilter: {
     category: LEFT_FOOT_COLLIDE,
     mask: GROUND_COLLIDE
 } });
@@ -130,17 +130,17 @@ const RIGHT_CALF_COLLIDE = 32;
 const RIGHT_FOOT_COLLIDE = 64;
 
 
-var right_thigh = Bodies.rectangle(150, 100, 30, 80, { render: { fillStyle: 'red' }, isStatic: static, collisionFilter: {
+var right_thigh = Bodies.rectangle(155, 190, 30, 80, { render: { fillStyle: 'darkred' }, isStatic: static, collisionFilter: {
     category: RIGHT_THIGH_COLLIDE,
     mask: GROUND_COLLIDE
 
 }});
 
-var right_calf = Bodies.rectangle(150, 180, 10, 70, { render: {fillStyle: 'red'}, isStatic: static, collisionFilter: {
+var right_calf = Bodies.rectangle(155, 270, 10, 70, { render: {fillStyle: 'darkred'}, isStatic: static, collisionFilter: {
     category: RIGHT_CALF_COLLIDE,
     mask: GROUND_COLLIDE
 }});
-var right_foot = Bodies.rectangle(155, 220, 20, 10, { render: {fillStyle: 'red'}, isStatic: static, collisionFilter: {
+var right_foot = Bodies.rectangle(160, 310, 20, 10, { render: {fillStyle: 'darkred'}, isStatic: static, friction: 1, collisionFilter: {
     category: RIGHT_FOOT_COLLIDE,
     mask: GROUND_COLLIDE
 } });
@@ -195,6 +195,40 @@ var right_calfFootConstraint = Constraint.create({
 
 */
 
+const BODY_COLLIDE = 128;
+
+
+var body = Bodies.rectangle(150, 100, 50, 100, { isStatic: static, collisionFilter: {
+    category: BODY_COLLIDE,
+    mask: GROUND_COLLIDE,
+}});
+
+var leftHip = Constraint.create({
+    bodyA: body,
+    bodyB: left_thigh,
+    pointA: { x: 0, y: 50 },
+    pointB: { x: 0, y: -40 },
+    length: 0,
+    render: {
+        visible: true
+    }
+});
+
+var rightHip = Constraint.create({
+    bodyA: body,
+    bodyB: right_thigh,
+    pointA: { x: 0, y: 50 },
+    pointB: { x: 0, y: -40 },
+    length: 0,
+    render: {
+        visible: true
+    }
+});
+
+
+
+
+
 
 /* 
 
@@ -218,7 +252,7 @@ var mouse = Mouse.create(render.canvas),
 render.mouse = mouse;
 
 // add all of the bodies to the world
-Composite.add(engine.world, [boxA, left_thigh, left_calf, left_foot, left_knee, left_ankle, ground, mouseConstraint, left_calfFootConstraint, left_kneeFootConstraint, right_thigh, right_calf, right_foot, right_knee, right_ankle, right_calfFootConstraint, right_kneeFootConstraint]);
+Composite.add(engine.world, [boxA, right_thigh, right_calf, right_foot, right_knee, right_ankle, right_calfFootConstraint, right_kneeFootConstraint, left_thigh, left_calf, left_foot, left_knee, left_ankle, ground, mouseConstraint, left_calfFootConstraint, left_kneeFootConstraint,  body, rightHip, leftHip]);
 
 // run the renderer
 Render.run(render);
