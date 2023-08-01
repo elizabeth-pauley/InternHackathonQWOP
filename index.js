@@ -189,6 +189,44 @@ var right_calfFootConstraint = Constraint.create({
 
 
 
+
+document.addEventListener('keydown', (event) => {
+    const keyCode = event.keyCode;
+    let target;
+
+    switch (keyCode) {
+        case 81: // 'q'
+            console.log("q");
+            break;
+        case 87: // 'w'
+            console.log("w");
+            break;
+        case 79: // 'o'
+            console.log("o");
+            // const angle = -.1; // Adjust the value to set the desired angle
+            // Matter.Body.setAngle(right_calf, angle);
+            // const angularVelocity = 0.5; // Adjust the value to control the rotation speed
+            // right_calf.angularVelocity = angularVelocity;
+            // const torque = 0.001; // Adjust the value to control the rotation
+            // Body.applyTorque(right_calf, torque);
+            // Body.applyForce(right_calf, right_calf.position, {x: 0.1, y: 0});
+            break;
+        case 80: // 'p'
+            console.log("p");
+            break;
+        default:
+            break;
+    }
+
+    // if ( target ) {
+    //     Body.applyForce(target, target.position, { 
+    //     x: 40, y: 0
+    //     });
+    // }
+
+});
+
+
 /*
 
     BODY
