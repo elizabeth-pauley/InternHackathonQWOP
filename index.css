@@ -1,9 +1,6 @@
 body {
     margin: 0;
-}
-
-canvas {
-    margin: 0;
+    background-color: slategrey;
 }
 
 h1 {
